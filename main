@@ -1,0 +1,31 @@
+uses
+  MathParser;
+
+function CalculateExpression(const expression: string): Double;
+var
+  parser: TMathParser;
+begin
+  parser := TMathParser.Create;
+  try
+    parser.Expression := expression;
+    Result := parser.Evaluate;
+  finally
+    parser.Free;
+  end;
+end;
+
+var
+  expression1, expression2, expression3: string;
+begin
+  expression1 := '2 + 3 * 5';
+  expression2 := '(10 - 5) / 2';
+  expression3 := '1 / 0';
+
+  Writeln(CalculateExpression(expression1)); // Output: 17
+  Writeln(CalculateExpression(expression2)); // Output: 2.5
+  try
+    Writeln(CalculateExpression(expression3)); // Output: Infinity, если нет ошибок
+  except
+    Writeln('Error: Division by zero');
+  end;
+end.
